@@ -1,5 +1,5 @@
 from base import Shape
-from .decorators import error_decorator
+from decorators import error_decorator
 import csv
 
 
@@ -40,12 +40,12 @@ class Account(Shape):
             INSERT OR IGNORE INTO Account (
                 account_number, user_id, type, bank_id, currency, amount, status
             ) VALUES (?, ?, ?, ?, ?, ?, ?)''', new_data)
-        self._db_connection.commit()
+
         self.log_info(f"Added {self.cursor.rowcount} account(s).")
         return f"Added {self.cursor.rowcount} account(s)."
 
     @error_decorator
-    def update(self, record_id, **kwargs):
+    def update(self, account_id, **kwargs):
         fields = {
             "account_number", "user_id", "type", "bank_id", "currency", "amount", "status"
         }
@@ -64,27 +64,25 @@ class Account(Shape):
             return "No fields to update."
 
         sql = f"UPDATE Account SET {', '.join(update_fields)} WHERE id = ?"
-        values.append(record_id)
+        values.append(account_id)
 
         self.cursor.execute(sql, tuple(values))
-        self._db_connection.commit()
         if self.cursor.rowcount == 0:
-            self.log_info(f"Account with id={record_id} not found.")
-            return f"Account with id={record_id} not found."
+            self.log_info(f"Account with id={account_id} not found.")
+            return f"Account with id={account_id} not found."
 
-        self.log_info(f"Account with id={record_id} updated.")
-        return f"Account with id={record_id} updated."
+        self.log_info(f"Account with id={account_id} updated.")
+        return f"Account with id={account_id} updated."
 
     @error_decorator
-    def delete(self, record_id):
-        self.cursor.execute("SELECT id FROM Account WHERE id = ?", (record_id,))
+    def delete(self, account_id):
+        self.cursor.execute("SELECT id FROM Account WHERE id = ?", (account_id,))
         result = self.cursor.fetchone()
 
         if result is None:
-            self.log_info(f"Account with id={record_id} not found.")
-            return f"Account with id={record_id} not found."
+            self.log_info(f"Account with id={account_id} not found.")
+            return f"Account with id={account_id} not found."
 
-        self.cursor.execute("DELETE FROM Account WHERE id = ?", (record_id,))
-        self._db_connection.commit()
-        self.log_info(f"Account with id={record_id} deleted.")
-        return f"Account with id={record_id} deleted."
+        self.cursor.execute("DELETE FROM Account WHERE id = ?", (account_id,))
+        self.log_info(f"Account with id={account_id} deleted.")
+        return f"Account with id={account_id} deleted."

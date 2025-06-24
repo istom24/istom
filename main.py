@@ -1,31 +1,15 @@
+from bank import Bank
+from decorators import db_connection_decorator
 import logging
-
-from .bank import Bank
-from .user import User
-from .account import Account
-from .decorators import db_connection_decorator
-
-
-def setup_logging():
-    logging.basicConfig(
-        filename='app.log',
-        filemode='a',
-        level=logging.INFO,
-        format='%(asctime)s - %(levelname)s - %(message)s'
-    )
+from user import User
+from account import Account
 
 
 def main():
-    setup_logging()
-
-    with Bank() as bank, User() as user, Account() as account:
-        print(bank.import_from_csv('banks.csv'))
-        print(demo_update_bank(bank))
-        print(demo_transfer_money(user))
-        print(demo_update_user(user))
-        print(demo_create_users(user))
-        print(demo_call_all_methods(user))
-        print(demo_account_operations(account))
+    logging.basicConfig(
+        filename='app.log', filemode='a', level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s'
+    )
 
 
 def demo_insert_banks():
@@ -73,23 +57,22 @@ def demo_create_users(user_obj):
         ("Larysa", "Moroz", "2007-02-28", "ID--l1-55555-r"),
         ("Petro", "Hnatyuk", "2005-08-08", "ID--p3-66666-q")
     ]
-    return user_obj.insert(sample_users, as_list=True)
-
+    result = user_obj.insert(sample_users, as_list=True)
 
 @db_connection_decorator(User)
 def demo_call_all_methods(user_obj):
+
     print(user_obj.get_users_with_debts())
-    print(user_obj.get_bank_with_oldest_client())
+    print( user_obj.get_bank_with_oldest_client())
     print(user_obj.get_bank_with_most_unique_outbound_users())
     print(user_obj.get_user_transactions_last_3_months(1))
     print(user_obj.get_accounts_of_under_18())
 
-
 @db_connection_decorator(Account)
 def demo_account_operations(account_obj):
     accounts = [
-        ("ID--a1-123456-x", 1, 'debit', 1, 'USD', 1000, 'gold'),
-        ("ID--b2-234567-y", 2, 'credit', 2, 'EUR', 5070, 'silver')
+        (7, 'debit', 123476, 1, 'USD', 1000, 'gold'),
+        (8, 'credit', 237567, 2, 'EUR', 5070, 'silver')
     ]
 
     insert_accounts = account_obj.insert(accounts, as_list=True)
@@ -97,11 +80,20 @@ def demo_account_operations(account_obj):
 
     update_result = account_obj.update(
         account_id=1,
-        amount=1200,
+        balance=1200,
         currency='USD'
     )
-    print(update_result)
+
+
+
 
 
 if __name__ == "__main__":
     main()
+    demo_insert_banks()
+    print(demo_update_bank())
+    print(demo_transfer_money())
+    print(demo_update_user())
+    print(demo_create_users())
+    print(demo_call_all_methods())
+    print(demo_account_operations())
