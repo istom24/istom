@@ -1,33 +1,25 @@
 import re
 from datetime import datetime
-from .decorators import error_decorator
 
 
-@error_decorator
 def validate_user_full_name(full_name):
     result_split = re.sub(r"[^a-zA-Z\s]", " ", full_name).strip().split()
     if len(result_split) < 2:
-        raise ValueError("User full name must contain at least name and surname")
+        raise Exception("User full name must contain at least name and surname")
     name = result_split[0]
     surname = result_split[1]
     return name, surname
 
-
-@error_decorator
-def validate_check_allowed(field_name, value, allowed_values):
+def check_allowed(field_name, value, allowed_values):
     if value not in allowed_values:
-        raise ValueError(f"Inadmissible value {value} for field {field_name} !")
+        raise Exception(f"Inadmissible value {value} for field {field_name} !")
     return value
 
 
-@error_decorator
-def validate_datetime(dt=None):
-    if dt is None:
-        return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    return datetime.strptime(dt, "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S")
+def validate_datetime(dt):
+    datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
-@error_decorator
 def validate_account_number(account_number):
     account_number = re.sub(r"[#%_?&]", "-", account_number)
 
@@ -43,7 +35,8 @@ def validate_account_number(account_number):
 
     return account_number
 
-# print(validate_user_full_name("John Smith"))
-# print(validate_user_full_name("Anna-Maria Petrova"))
-# print(check_allowed("currency", "USD", ["USD", "EUR"]))
-# print(check_allowed("type", "crypto", ["credit", "debit"]))
+print(validate_user_full_name("John Smith"))
+print(validate_user_full_name("Anna-Maria Petrova"))
+print(check_allowed("currency", "USD", ["USD", "EUR"]))
+print(check_allowed("type", "crypto", ["credit", "debit"]))
+

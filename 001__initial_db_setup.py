@@ -30,7 +30,7 @@ def create_database(unique_name_surname=True):
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         user_id INTEGER NOT NULL,
         type TEXT CHECK(type IN ('credit', 'debit')) NOT NULL,
-        account_number TEXT NOT NULL UNIQUE,
+        account_number INTEGER NOT NULL UNIQUE,
         bank_id INTEGER NOT NULL,
         currency TEXT CHECK(currency IN ('USD', 'EUR', 'UAH')) NOT NULL,
         amount INTEGER NOT NULL,
@@ -59,17 +59,17 @@ def create_database(unique_name_surname=True):
     cursor.executemany('''INSERT OR IGNORE INTO Bank (name) VALUES (?)''', banks)
 
     users = [
-        ('Alice', 'Martin', '2001-05-10', '123344'),
-        ('Elizabeth', 'Miller', '2004-08-22', '3545456'),
-        ('Barbara', 'Lopez', '1999-02-11', '34535345')
+        ('Alice', 'Martin', '2001-05-10', 'ID--j3-q-432547-u9'),
+        ('Elizabeth', 'Miller', '2004-08-22', 'ID--j3-q-435647-u9'),
+        ('Barbara', 'Lopez', '1999-02-11', 'ID--j3-q-43590-u9')
     ]
     cursor.executemany('''INSERT OR IGNORE INTO User (
         name, surname, birth_day, accounts
     ) VALUES (?, ?, ?, ?)''', users)
 
     accounts = [
-        (1, 'debit', 'ID--j3-q-432547-u9', 1, 'USD', 1000, 'gold'),
-        (2, 'credit', 'ID--j3-q-432597-u9', 2, 'EUR', 500, 'silver')
+        (1, 'debit', 123456, 1, 'USD', 1000, 'gold'),
+        (2, 'credit', 234567, 2, 'EUR', 500, 'silver')
     ]
     cursor.executemany('''INSERT OR IGNORE INTO Account (
         user_id, type, account_number, 
@@ -100,7 +100,7 @@ def main():
     args = parser.parse_args()
     create_database(unique_name_surname=args.unique_name_surname)
     print(f"A database has been created with a uniqueness constraint: {args.unique_name_surname}")
-
+    # print(f"Створено базу даних з обмеженням унікальності: {args.unique_name_surname}")
 
 if __name__ == "__main__":
     main()
