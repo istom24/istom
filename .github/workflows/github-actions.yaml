@@ -25,9 +25,9 @@ jobs:
         run: |
           prospector --profile .prospector.yaml
 
-      - name: unit-tests
+      - name: Linter
         run: |
-          pytest test/
+          prospector
           
           
           
