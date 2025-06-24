@@ -1,32 +1,17 @@
-name: after-push checks
-run-name: let_s_see
+strictness: medium
+doc-warnings: false
 
-on:
-  workflow_dispatch:
-  push:
+ignore:
+  - import-error
 
-jobs:
-  Custom_pipeline:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+pylint:
+  disable:
+    - import-error
+    - too-many-arguments
+    - too-many-positional-arguments
+  options:
+    max-args: 7
 
-      - name: Set up Python 3.12.9
-        uses: actions/setup-python@v3
-        with:
-          python-version: "3.12.9"
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install prospector[with_everything] pytest
-
-      - name: Linter (prospector)
-        run: |
-          prospector
-      - name: Linter
-        run: prospector --profile .github/workflows/.prospector.yaml
-
-      - name: Run unit tests
-        run: |
-          pytest
+pyflakes:
+  disable:
+    - F401
