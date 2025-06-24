@@ -1,5 +1,5 @@
-from base import Shape
-from decorators import error_decorator
+from .base import Shape
+from .decorators import error_decorator
 import csv
 
 
@@ -37,7 +37,7 @@ class Bank(Shape):
         return f"Added {self.cursor.rowcount} banks."
 
     @error_decorator
-    def update(self, bank_id, **kwargs):
+    def update(self, record_id, **kwargs):
         allowed_fields = {"name"}
         update_fields = []
         values = []
@@ -54,28 +54,28 @@ class Bank(Shape):
             return "No fields to update."
 
         sql = f"UPDATE Bank SET {', '.join(update_fields)} WHERE id = ?"
-        values.append(bank_id)
+        values.append(record_id)
 
         self.cursor.execute(sql, tuple(values))
         self._db_connection.commit()
 
         if self.cursor.rowcount == 0:
-            self.log_info(f"Bank with id={bank_id} not found.")
-            return f"Bank with id={bank_id} not found."
+            self.log_info(f"Bank with id={record_id} not found.")
+            return f"Bank with id={record_id} not found."
 
-        self.log_info(f"Bank with id={bank_id} updated.")
-        return f"Bank with id={bank_id} updated."
+        self.log_info(f"Bank with id={record_id} updated.")
+        return f"Bank with id={record_id} updated."
 
     @error_decorator
-    def delete(self, bank_id):
-        self.cursor.execute("SELECT id FROM Bank WHERE id = ?", (bank_id,))
+    def delete(self, record_id):
+        self.cursor.execute("SELECT id FROM Bank WHERE id = ?", (record_id,))
         result = self.cursor.fetchone()
 
         if result is None:
-            self.log_info(f"Bank with id={bank_id} not found.")
-            return f"Bank with id={bank_id} not found."
+            self.log_info(f"Bank with id={record_id} not found.")
+            return f"Bank with id={record_id} not found."
 
-        self.cursor.execute("DELETE FROM Bank WHERE id = ?", (bank_id,))
+        self.cursor.execute("DELETE FROM Bank WHERE id = ?", (record_id,))
         self._db_connection.commit()
-        self.log_info(f"Bank with id={bank_id} deleted.")
-        return f"Bank with id={bank_id} deleted."
+        self.log_info(f"Bank with id={record_id} deleted.")
+        return f"Bank with id={record_id} deleted."
