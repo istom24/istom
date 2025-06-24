@@ -1,7 +1,7 @@
 import sqlite3
 import logging
 from abc import ABC, abstractmethod
-from constants import DB_PATH
+from .constants import DB_PATH
 
 
 class Shape(ABC):
@@ -16,7 +16,7 @@ class Shape(ABC):
         self._logger.error(message)
 
     @abstractmethod
-    def insert(self, *args, **kwargs):
+    def insert(self, *args, as_list=False):
         pass
 
     @abstractmethod

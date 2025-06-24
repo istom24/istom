@@ -1,4 +1,3 @@
-
 DB_PATH = '001__initial_db_setup.db'
 
 API_URL = "https://api.freecurrencyapi.com/v1/latest"
