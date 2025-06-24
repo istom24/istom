@@ -24,6 +24,8 @@ jobs:
       - name: Linter (prospector)
         run: |
           prospector
+      - name: Linter
+        run: prospector --profile .github/workflows/.prospector.yaml
 
       - name: Run unit tests
         run: |
