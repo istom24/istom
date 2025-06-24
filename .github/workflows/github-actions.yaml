@@ -21,13 +21,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install prospector[with_everything] pytest
 
-      - name: Linter
-        run: |
-          prospector --profile .prospector.yaml
-
-      - name: Linter
+      - name: Linter (prospector)
         run: |
           prospector
-          
-          
-          
+
+      - name: Run unit tests
+        run: |
+          pytest
