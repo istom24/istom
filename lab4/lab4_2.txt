@@ -1,0 +1,103 @@
+You work with an audit company which wants to have cross-bank transfers api to simplify their job. You was hired to prepare a functional that will be integrated to the api later.
+don’t forget about doc strings and logging
+Ви працюєте з аудиторською компанією, яка хоче мати api для міжбанківських переказів, щоб спростити свою роботу.
+Вас найняли, щоб підготувати функціонал, який буде інтегрований в api пізніше.
+
+PART 1.  
+You must create api module:
+Ви повинні створити модуль api:
+(for each function you should return message of failure/success. if you return data put the message alongside)
+(для кожної функції ви повинні повертати повідомлення про невдачу/успіх.
+ якщо ви повертаєте дані, виводьте повідомлення)
+
+Decorator which establish db connection. Then use it along the code.
+Декоратор, який встановлює з'єднання з базою даних. Потім використовуйте його в коді.
+
+Set of functions which can add user/bank/account to the DB. They should take data as a parameters.
+ The functions can add to the data base any amount of rows by one time.
+Набір функцій, які можуть додати користувача/банк/рахунок до БД. Вони повинні приймати дані в якості параметрів.
+Функції можуть додавати в базу даних будь-яку кількість рядків за один раз.
+Функція повинна обробляти: або список рядків, або будь-яку кількість окремих рядків.Єдина проблема -
+вхідні дані користувача завжди будуть містити поле user_full_name.
+Поле повинно бути розбите на ім'я та прізвище.
+
+
+Сhe field should be parsed for name and surname.
+Поле повинно бути розбите на ім'я та прізвище.
+
+Set of functions which can add the same data about user||bank||account from csv file.
+ (the function takes a path to the file as a parameter)
+Набір функцій, які можуть додати ті ж самі дані про користувача||банк||рахунок з csv файлу.
+(функція отримує шлях до файлу як параметр)
+
+Set of functions which can modify one particular user/bank/account row of data
+Набір функцій, які можуть змінювати один конкретний рядок даних про користувача/банк/рахунок
+
+Set of functions which can delete one particular user/bank/account row
+Набір функцій, які можуть видаляти один конкретний рядок даних про користувача/банк/рахунок
+
+
+
+
+Set of functions which performs money transfer from one card to another.
+Набір функцій, які виконують переказ грошей з однієї картки на іншу.
+
+Take care if sender’s balance affords to perform transaction.
+Переконайтеся, що баланс відправника дозволяє виконати транзакцію.
+
+Also convert currencies if it’s necessary.
+Також конвертуйте валюту, якщо це необхідно.
+
+Don’t forget about updating all necessary tables.
+Не забувайте про оновлення всіх необхідних таблиць.
+
+(you can get exchange rates with an API: https://freecurrencyapi.com/docs/
+(курси валют можна отримати за допомогою API: https://freecurrencyapi.com/docs/
+
+to get api_key pass the authorization: https://app.freecurrencyapi.com/login
+для отримання api_key пройдіть авторизацію: https://app.freecurrencyapi.com/login
+
+don’t forget about scenarios when you exceed allowed amount of requests)
+не забувайте про сценарії, коли ви перевищуєте дозволену кількість запитів)
+
+PART 3.  
+You were requested to add validations in separate module and use them during data inserts and updates:
+Вас попросили додати валідації в окремий модуль і використовувати їх під час вставки та оновлення даних:
+
+Validation for user_full_name field which divide it for name
+Валідація для поля user_full_name, яка розділяє його на ім'я
+
+and surname by any kind of spaces and filter out all non-alphabetical symbols
+та прізвище будь-якими пробілами та відфільтровує всі неалфавітні символи
+
+alidate fields which have strict set of values mentioned in db scheme.
+Валідація полів, які мають строгий набір значень, зазначених у схемі бази даних.
+
+(raise an error: not allowed value {} for field {}!)
+(Згенерувати помилку: недопустиме значення {} для поля {}!)
+
+If datetime of transaction wasn’t passed, put the current time.
+Якщо не було передано дату транзакції, підставити поточний час.
+
+Validation for account number:
+Перевірка номера рахунку:
+
+•	If it contains one of #%_?& just replace them with dash.
+Якщо він містить один з символів #%_?&, просто замініть їх на тире.
+
+•	it should be string of 18 chars (raise an error: too little/many chars! depend on amount)
+ це має бути рядок з 18 символів (згенерує помилку: занадто мало/багато символів! залежить від кількості)
+
+•	which begins with chars ID-- (raise an error: wrong format!)
+який починається з символів ID-- (згенерує помилку: невірний формат!)
+
+•	should contain such pattern in any position: (raise an error: broken ID!)
+повинен містити такий шаблон у будь-якій позиції: (згенерує помилку: неправильний ID!)
+
+	o	from 1 to 3 letters - від 1 до 3 літер
+	o	then one dash - потім одне тире
+	o	then any amount of digits but at least one - потім будь-яку кількість цифр, але не менше однієї
+	o	then one dash. - потім одне тире.
+•	EX of desired pattern in account number: ID--j3-q-432547-u9 -
+- EX потрібного шаблону в номері рахунку: ID--j3-q-432547-u9
+
