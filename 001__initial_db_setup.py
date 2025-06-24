@@ -54,7 +54,7 @@ def create_database(unique_name_surname=True):
 
     banks = [
         ('MONO Bank',),
-        ('Privat24 Bank',)
+        ('Bank',)
     ]
     cursor.executemany('''INSERT OR IGNORE INTO Bank (name) VALUES (?)''', banks)
 
@@ -78,8 +78,8 @@ def create_database(unique_name_surname=True):
 
     transactions_data = [
         ('MONO Bank', 1, 'MONO Bank', 2, 'USD', 1500, '2025-05-28 10:30:00'),
-        ('Privat24 Bank', 2, 'MONO Bank', 1, 'EUR', 500, '2025-05-27 15:45:00'),
-        ('MONO Bank', 1, 'Privat24 Bank', 3, 'UAH', 2500, '2025-05-26 09:20:00'),
+        ('Bank', 2, 'MONO Bank', 1, 'EUR', 500, '2025-05-27 15:45:00'),
+        ('MONO Bank', 1, 'Bank', 3, 'UAH', 2500, '2025-05-26 09:20:00'),
     ]
     cursor.executemany('''
         INSERT INTO Transactions (

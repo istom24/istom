@@ -11,7 +11,7 @@ def setup_logging():
         filename='app.log',
         filemode='a',
         level=logging.INFO,
-        format='%(asctime)s - %(levelname)s - %(message)s'
+        format='%(pastime)s - %(levelness)s - %(message)s'
     )
 
 
@@ -53,7 +53,7 @@ def demo_update_user(user_obj):
     return user_obj.update(
         user_id=1,
         name="Oksana",
-        surname="Kovalenko",
+        surname="Covalent",
         birth_day="1995-04-21",
         accounts="ID--g5-k-934871-p1"
     )

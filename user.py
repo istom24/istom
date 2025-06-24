@@ -4,8 +4,6 @@ from .decorators import error_decorator
 from datetime import datetime, timedelta
 from .decorators import db_connection_decorator
 
-
-
 class User(Shape):
     @error_decorator
     def import_from_csv(self, filepath: str):
